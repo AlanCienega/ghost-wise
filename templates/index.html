@@ -6,7 +6,7 @@
     <title>LinkedIn Profile Search</title>
   </head>
   <body>
-    <h1>LinkedIn Profile Search</h1>
+    <h1 style="color: #0a66c2">LinkedIn Profile Search</h1>
     <form method="POST">
       <label for="profile">Enter profile name:</label>
       <input type="text" id="profile" name="profile" required />
@@ -19,6 +19,17 @@
     <p><strong>Headline:</strong> {{ profile_data['headline'] }}</p>
     <p><strong>Summary:</strong> {{ profile_data['summary'] }}</p>
     <p><strong>Location:</strong> {{ profile_data['locationName'] }}</p>
+    <ol>
+      {%for i in range(0, certifications_counter)%}
+      <li>
+        <b> {{certifications[i].name}} </b>
+        <p>{{certifications[i].authority}}</p>
+        <a href="{{certifications[i].url }}" target="_blank"
+          >{{certifications[i].company.universalName}} certification link</a
+        >
+      </li>
+      {%endfor%}
+    </ol>
     {% endif %}
   </body>
 </html>

@@ -13,10 +13,17 @@ api = Linkedin(os.getenv('EMAIL'), os.getenv('PASSWORD'))
 @app.route('/', methods=['GET', 'POST'])
 def index():
     profile_data = None
+    certifications = []
     if request.method == 'POST':
         profile = request.form['profile']
         profile_data = api.get_profile(profile)
-    return render_template('index.html', profile_data=profile_data)
+        certifications = profile_data['certifications']
+    return render_template(
+        'index.html',
+        profile_data=profile_data, 
+        certifications=certifications,
+        certifications_counter=len(certifications) 
+        )
 
 if __name__ == '__main__':
     app.run(debug=True)
