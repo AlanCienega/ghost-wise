@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LinkedIn Profile Search</title>
+  </head>
+  <body>
+    <h1>LinkedIn Profile Search</h1>
+    <form method="POST">
+      <label for="profile">Enter profile name:</label>
+      <input type="text" id="profile" name="profile" required />
+      <button type="submit">Search</button>
+    </form>
+    {% if profile_data %}
+    <h2>Profile Information</h2>
+    <p><strong>First Name:</strong> {{ profile_data['firstName'] }}</p>
+    <p><strong>Last Name:</strong> {{ profile_data['lastName'] }}</p>
+    <p><strong>Headline:</strong> {{ profile_data['headline'] }}</p>
+    <p><strong>Summary:</strong> {{ profile_data['summary'] }}</p>
+    <p><strong>Location:</strong> {{ profile_data['locationName'] }}</p>
+    {% endif %}
+  </body>
+</html>
