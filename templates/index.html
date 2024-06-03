@@ -1,35 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LinkedIn Profile Search</title>
-  </head>
-  <body>
-    <h1 style="color: #0a66c2">LinkedIn Profile Search</h1>
-    <form method="POST">
-      <label for="profile">Enter profile name:</label>
-      <input type="text" id="profile" name="profile" required />
-      <button type="submit">Search</button>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Matcher</title>
+</head>
+<body>
+    <h1>Job Matcher</h1>
+    <form action="/submit" method="post" enctype="multipart/form-data">
+        <label for="profile">Perfil Técnico:</label><br>
+        <textarea id="profile" name="profile" rows="4" cols="50"></textarea><br><br>
+        <label for="cv">Subir CV:</label><br>
+        <input type="file" id="cv" name="cv"><br><br>
+        <input type="submit" value="Submit">
     </form>
-    {% if profile_data %}
-    <h2>Profile Information</h2>
-    <p><strong>First Name:</strong> {{ profile_data['firstName'] }}</p>
-    <p><strong>Last Name:</strong> {{ profile_data['lastName'] }}</p>
-    <p><strong>Headline:</strong> {{ profile_data['headline'] }}</p>
-    <p><strong>Summary:</strong> {{ profile_data['summary'] }}</p>
-    <p><strong>Location:</strong> {{ profile_data['locationName'] }}</p>
-    <ol>
-      {%for i in range(0, certifications_counter)%}
-      <li>
-        <b> {{certifications[i].name}} </b>
-        <p>{{certifications[i].authority}}</p>
-        <a href="{{certifications[i].url }}" target="_blank"
-          >{{certifications[i].company.universalName}} certification link</a
-        >
-      </li>
-      {%endfor%}
-    </ol>
-    {% endif %}
-  </body>
+</body>
 </html>

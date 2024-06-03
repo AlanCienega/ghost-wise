@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Matcher Result</title>
+</head>
+<body>
+    <h1>Resultado del Análisis</h1>
+    <h2>Perfil Técnico Analizado:</h2>
+    <p><strong>Texto Original:</strong> {{ result.profile_analysis.original_text }}</p>
+    <p><strong>Idioma:</strong> {{ result.profile_analysis.language }}</p>
+    <p><strong>Sentimiento:</strong> {{ result.profile_analysis.sentiment }}</p>
+    <p><strong>Frases Clave:</strong> {{ result.profile_analysis.key_phrases }}</p>
+    <p><strong>Entidades:</strong> {{ result.profile_analysis.entities }}</p>
+
+    <h2>CV Analizado:</h2>
+    <p><strong>Contenido:</strong> {{ result.cv_analysis.text }}</p>
+
+    <h2>Compatibilidad:</h2>
+    <p><strong>Porcentaje de Compatibilidad:</strong> {{ result.compatibility_percentage }}%</p>
+    <p><strong>Frases Comunes:</strong> {{ result.common_phrases }}</p>
+</body>
+</html>
