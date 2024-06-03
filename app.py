@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from dotenv import load_dotenv
 import os
+import requests
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.textanalytics import TextAnalyticsClient
 from azure.ai.formrecognizer import DocumentAnalysisClient
@@ -66,6 +67,18 @@ def analyze_cv(cv_path, client):
         
         return extracted_data
 
+# Función para calcular la compatibilidad
+def calculate_compatibility(profile_entities, profile_phrases, cv_entities, cv_phrases):
+    common_entities = set(profile_entities).intersection(set(cv_entities))
+    common_phrases = set(profile_phrases).intersection(set(cv_phrases))
+    
+    total_elements = len(profile_entities) + len(profile_phrases)
+    if total_elements == 0:
+        return 0
+    
+    compatibility_score = (len(common_entities) + len(common_phrases)) / total_elements * 100
+    return compatibility_score
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -76,17 +89,17 @@ def submit():
     cv_file = request.files['cv']
 
     # Analizar perfil técnico
-    language = get_language(profile_text, ai_client)
+    profile_language = get_language(profile_text, ai_client)
     sentiment = get_sentiment(profile_text, ai_client)
-    key_phrases = get_key_phrases(profile_text, ai_client)
-    entities = get_entities(profile_text, ai_client)
+    profile_key_phrases = get_key_phrases(profile_text, ai_client)
+    profile_entities = get_entities(profile_text, ai_client)
 
     profile_analysis = {
         "original_text": profile_text,
-        "language": language,
+        "language": profile_language,
         "sentiment": sentiment,
-        "key_phrases": key_phrases,
-        "entities": entities
+        "key_phrases": profile_key_phrases,
+        "entities": profile_entities
     }
 
     # Crear el directorio 'uploads' si no existe
@@ -99,17 +112,21 @@ def submit():
     cv_file.save(cv_path)
     cv_data = analyze_cv(cv_path, document_analysis_client)
 
-    # Calcular compatibilidad (simple comparación de key phrases)
+    # Obtener el texto del CV
     cv_text = " ".join(cv_data.get("text", []))
+    cv_language = get_language(cv_text, ai_client)
     cv_key_phrases = get_key_phrases(cv_text, ai_client)
-    common_phrases = set(key_phrases).intersection(set(cv_key_phrases))
-    compatibility_percentage = (len(common_phrases) / len(key_phrases)) * 100
+    cv_entities = get_entities(cv_text, ai_client)
+
+    # Calcular compatibilidad
+    compatibility_percentage = calculate_compatibility(profile_entities, profile_key_phrases, cv_entities, cv_key_phrases)
 
     result = {
         "profile_analysis": profile_analysis,
         "cv_analysis": cv_data,
         "compatibility_percentage": compatibility_percentage,
-        "common_phrases": list(common_phrases)
+        "common_entities": list(set(profile_entities).intersection(set(cv_entities))),
+        "common_phrases": list(set(profile_key_phrases).intersection(set(cv_key_phrases)))
     }
 
     return render_template('result.html', result=result)
