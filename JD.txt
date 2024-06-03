@@ -1,0 +1,6 @@
+Buscamos un Full Stack Developer con al menos 3 años de experiencia en desarrollo web y conocimientos sólidos en Laravel y Vue.js. Es esencial tener habilidades sólidas de comunicación y capacidad para trabajar en equipo. Las responsabilidades incluyen el desarrollo de interfaces de usuario, la construcción de aplicaciones web y la realización de pruebas del sistema.
+Requisitos:
+Experiencia mínima de 3 años como Full Stack Developer.
+Conocimientos sólidos en Laravel y Vue.js.
+Habilidades de comunicación sólidas.
+Capacidad para trabajar en equipo.

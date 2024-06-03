@@ -79,6 +79,17 @@ def calculate_compatibility(profile_entities, profile_phrases, cv_entities, cv_p
     compatibility_score = (len(common_entities) + len(common_phrases)) / total_elements * 100
     return compatibility_score
 
+def calculate_compatibility_entities(profile_entities, cv_entities):
+    common_entities = set(profile_entities).intersection(set(cv_entities))
+    
+    total_entities = len(profile_entities)
+    if total_entities == 0:
+        return 0
+    
+    compatibility_score = len(common_entities) / total_entities * 100
+    return compatibility_score
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -119,7 +130,7 @@ def submit():
     cv_entities = get_entities(cv_text, ai_client)
 
     # Calcular compatibilidad
-    compatibility_percentage = calculate_compatibility(profile_entities, profile_key_phrases, cv_entities, cv_key_phrases)
+    compatibility_percentage = calculate_compatibility_entities(profile_entities, cv_entities)
 
     result = {
         "profile_analysis": profile_analysis,
