@@ -1,25 +1,49 @@
-<!DOCTYPE html>
+<h2 class="card-subtitle"></h2><!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Job Matcher Result</title>
-</head>
-<body>
-    <h1>Resultado del Análisis</h1>
-    <h2>Perfil Técnico Analizado:</h2>
-    <p><strong>Texto Original:</strong> {{ result.profile_analysis.original_text }}</p>
-    <p><strong>Idioma:</strong> {{ result.profile_analysis.language }}</p>
-    <p><strong>Sentimiento:</strong> {{ result.profile_analysis.sentiment }}</p>
-    <p><strong>Frases Clave:</strong> {{ result.profile_analysis.key_phrases }}</p>
-    <p><strong>Entidades:</strong> {{ result.profile_analysis.entities }}</p>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="m-3">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">Resultado del Análisis</h1>
+        <h2 class="card-subtitle">Perfil Técnico Analizado:</h2>
+        <p>
+          <strong>Texto Original:</strong> {{
+          result.profile_analysis.original_text }}
+        </p>
+        <p><strong>Idioma:</strong> {{ result.profile_analysis.language }}</p>
+        <p>
+          <strong>Sentimiento:</strong> {{ result.profile_analysis.sentiment }}
+        </p>
+        <p>
+          <strong>Frases Clave:</strong> {{ result.profile_analysis.key_phrases
+          }}
+        </p>
+        <p>
+          <strong>Entidades:</strong> {{ result.profile_analysis.entities }}
+        </p>
 
-    <h2>CV Analizado:</h2>
-    <p><strong>Contenido:</strong> {{ result.cv_analysis.text }}</p>
+        <h2 class="card-subtitle">CV Analizado:</h2>
+        <p><strong>Contenido:</strong> {{ result.cv_analysis.text }}</p>
 
-    <h2>Compatibilidad:</h2>
-    <p><strong>Porcentaje de Compatibilidad:</strong> {{ result.compatibility_percentage }}%</p>
-    <p><strong>Entidades Comunes:</strong> {{ result.common_entities }}</p>
-    <p><strong>Frases Comunes:</strong> {{ result.common_phrases }}</p>
-</body>
+        <h2 class="card-subtitle">Compatibilidad:</h2>
+        <p>
+          <strong class="text-info">Porcentaje de Compatibilidad:</strong> {{
+          result.compatibility_percentage }}%
+        </p>
+        <p><strong>Entidades Comunes:</strong> {{ result.common_entities }}</p>
+        <p><strong>Frases Comunes:</strong> {{ result.common_phrases }}</p>
+        <a class="btn btn-primary" href="javascript:history.back()">Volver</a>
+      </div>
+    </div>
+  </body>
 </html>

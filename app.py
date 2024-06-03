@@ -41,7 +41,7 @@ def get_entities(text, client):
 def analyze_cv(cv_path, client):
     with open(cv_path, "rb") as file:
         try:
-            poller = client.begin_analyze_document("prebuilt-document", file)
+            poller = client.begin_analyze_document("prebuilt-businessCard", file)
             result = poller.result()
         except Exception as e:
             print(f"Error occurred: {e}")
@@ -131,6 +131,7 @@ def submit():
 
     # Calcular compatibilidad
     compatibility_percentage = calculate_compatibility_entities(profile_entities, cv_entities)
+    compatibility_percentage = round(compatibility_percentage, 2)
 
     result = {
         "profile_analysis": profile_analysis,
