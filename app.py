@@ -5,6 +5,7 @@ import requests
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.textanalytics import TextAnalyticsClient
 from azure.ai.formrecognizer import DocumentAnalysisClient
+from azure.storage.blob import BlobServiceClient
 
 app = Flask(__name__)
 
@@ -14,11 +15,15 @@ ai_endpoint = os.getenv('AI_SERVICE_ENDPOINT')
 ai_key = os.getenv('AI_SERVICE_KEY')
 document_endpoint = os.getenv("AZURE_FORMRECOGNIZER_ENDPOINT")
 document_key = os.getenv("AZURE_FORMRECOGNIZER_KEY")
+blob_connection_string = os.getenv("AZURE_BLOB_STORAGE_CONNECTION_STRING")
+blob_container_name = os.getenv("AZURE_BLOB_STORAGE_CONTAINER_NAME")
 
 # Crear clientes de Azure
 credential = AzureKeyCredential(ai_key)
 ai_client = TextAnalyticsClient(endpoint=ai_endpoint, credential=credential)
 document_analysis_client = DocumentAnalysisClient(endpoint=document_endpoint, credential=AzureKeyCredential(document_key))
+blob_service_client = BlobServiceClient.from_connection_string(blob_connection_string)
+blob_container_client = blob_service_client.get_container_client(blob_container_name)
 
 # Funciones de análisis de texto
 def get_language(text, client):
@@ -38,47 +43,38 @@ def get_entities(text, client):
     return [entity.text for entity in response.entities]
 
 # Función de análisis de CV
-def analyze_cv(cv_path, client):
-    with open(cv_path, "rb") as file:
-        try:
-            poller = client.begin_analyze_document("prebuilt-businessCard", file)
-            result = poller.result()
-        except Exception as e:
-            print(f"Error occurred: {e}")
-            return {}
+def analyze_cv(blob_client, client):
+    download_stream = blob_client.download_blob()
+    file_data = download_stream.readall()
 
-        extracted_data = {"text": []}
-        for page in result.pages:
-            page_text = []
-            for line in page.lines:
-                page_text.append(line.content)
-            extracted_data["text"].append(" ".join(page_text))
-        
-        extracted_data["tables"] = []
-        for table in result.tables:
-            table_data = []
-            for cell in table.cells:
-                table_data.append({
-                    "content": cell.content,
-                    "rowIndex": cell.row_index,
-                    "columnIndex": cell.column_index
-                })
-            extracted_data["tables"].append(table_data)
-        
-        return extracted_data
+    try:
+        poller = client.begin_analyze_document("prebuilt-businessCard", file_data)
+        result = poller.result()
+    except Exception as e:
+        print(f"Error occurred: {e}")
+        return {}
+
+    extracted_data = {"text": []}
+    for page in result.pages:
+        page_text = []
+        for line in page.lines:
+            page_text.append(line.content)
+        extracted_data["text"].append(" ".join(page_text))
+    
+    extracted_data["tables"] = []
+    for table in result.tables:
+        table_data = []
+        for cell in table.cells:
+            table_data.append({
+                "content": cell.content,
+                "rowIndex": cell.row_index,
+                "columnIndex": cell.column_index
+            })
+        extracted_data["tables"].append(table_data)
+    
+    return extracted_data
 
 # Función para calcular la compatibilidad
-def calculate_compatibility(profile_entities, profile_phrases, cv_entities, cv_phrases):
-    common_entities = set(profile_entities).intersection(set(cv_entities))
-    common_phrases = set(profile_phrases).intersection(set(cv_phrases))
-    
-    total_elements = len(profile_entities) + len(profile_phrases)
-    if total_elements == 0:
-        return 0
-    
-    compatibility_score = (len(common_entities) + len(common_phrases)) / total_elements * 100
-    return compatibility_score
-
 def calculate_compatibility_entities(profile_entities, cv_entities):
     common_entities = set(profile_entities).intersection(set(cv_entities))
     
@@ -89,7 +85,6 @@ def calculate_compatibility_entities(profile_entities, cv_entities):
     compatibility_score = len(common_entities) / total_entities * 100
     return compatibility_score
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -97,7 +92,6 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit():
     profile_text = request.form['profile']
-    cv_file = request.files['cv']
 
     # Analizar perfil técnico
     profile_language = get_language(profile_text, ai_client)
@@ -113,35 +107,34 @@ def submit():
         "entities": profile_entities
     }
 
-    # Crear el directorio 'uploads' si no existe
-    upload_dir = "uploads"
-    if not os.path.exists(upload_dir):
-        os.makedirs(upload_dir)
+    compatibility_results = []
 
-    # Guardar CV y analizarlo
-    cv_path = os.path.join(upload_dir, cv_file.filename)
-    cv_file.save(cv_path)
-    cv_data = analyze_cv(cv_path, document_analysis_client)
+    # Recorrer los archivos en el blob storage
+    for blob in blob_container_client.list_blobs():
+        blob_client = blob_container_client.get_blob_client(blob)
+        
+        # Analizar CV desde Azure Blob Storage
+        cv_data = analyze_cv(blob_client, document_analysis_client)
 
-    # Obtener el texto del CV
-    cv_text = " ".join(cv_data.get("text", []))
-    cv_language = get_language(cv_text, ai_client)
-    cv_key_phrases = get_key_phrases(cv_text, ai_client)
-    cv_entities = get_entities(cv_text, ai_client)
+        # Obtener el texto del CV
+        cv_text = " ".join(cv_data.get("text", []))
+        cv_language = get_language(cv_text, ai_client)
+        cv_key_phrases = get_key_phrases(cv_text, ai_client)
+        cv_entities = get_entities(cv_text, ai_client)
 
-    # Calcular compatibilidad
-    compatibility_percentage = calculate_compatibility_entities(profile_entities, cv_entities)
-    compatibility_percentage = round(compatibility_percentage, 2)
+        # Calcular compatibilidad
+        compatibility_percentage = calculate_compatibility_entities(profile_entities, cv_entities)
+        compatibility_percentage = round(compatibility_percentage, 2)
 
-    result = {
-        "profile_analysis": profile_analysis,
-        "cv_analysis": cv_data,
-        "compatibility_percentage": compatibility_percentage,
-        "common_entities": list(set(profile_entities).intersection(set(cv_entities))),
-        "common_phrases": list(set(profile_key_phrases).intersection(set(cv_key_phrases)))
-    }
+        compatibility_results.append({
+            "cv_filename": blob.name,
+            "cv_analysis": cv_data,
+            "compatibility_percentage": compatibility_percentage,
+            "common_entities": list(set(profile_entities).intersection(set(cv_entities))),
+            "common_phrases": list(set(profile_key_phrases).intersection(set(cv_key_phrases)))
+        })
 
-    return render_template('result.html', result=result)
+    return render_template('result.html', profile_analysis=profile_analysis, compatibility_results=compatibility_results)
 
 if __name__ == '__main__':
     app.run(debug=True)

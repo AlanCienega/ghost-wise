@@ -1,4 +1,4 @@
-<h2 class="card-subtitle"></h2><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -15,33 +15,57 @@
     <div class="card">
       <div class="card-body">
         <h1 class="card-title">Resultado del Análisis</h1>
+        
         <h2 class="card-subtitle">Perfil Técnico Analizado:</h2>
-        <p>
-          <strong>Texto Original:</strong> {{
-          result.profile_analysis.original_text }}
+        <p><strong>Texto Original:</strong> {{ profile_analysis.original_text }}</p>
+        <p><strong>Idioma:</strong> {{ profile_analysis.language }}</p>
+        <p><strong>Sentimiento:</strong> {{ profile_analysis.sentiment }}</p>
+        <p><strong>Frases Clave:</strong>
+          <ul>
+            {% for phrase in profile_analysis.key_phrases %}
+              <li>{{ phrase }}</li>
+            {% endfor %}
+          </ul>
         </p>
-        <p><strong>Idioma:</strong> {{ result.profile_analysis.language }}</p>
-        <p>
-          <strong>Sentimiento:</strong> {{ result.profile_analysis.sentiment }}
-        </p>
-        <p>
-          <strong>Frases Clave:</strong> {{ result.profile_analysis.key_phrases
-          }}
-        </p>
-        <p>
-          <strong>Entidades:</strong> {{ result.profile_analysis.entities }}
+        <p><strong>Entidades:</strong>
+          <ul>
+            {% for entity in profile_analysis.entities %}
+              <li>{{ entity }}</li>
+            {% endfor %}
+          </ul>
         </p>
 
-        <h2 class="card-subtitle">CV Analizado:</h2>
-        <p><strong>Contenido:</strong> {{ result.cv_analysis.text }}</p>
-
-        <h2 class="card-subtitle">Compatibilidad:</h2>
-        <p>
-          <strong class="text-info">Porcentaje de Compatibilidad:</strong> {{
-          result.compatibility_percentage }}%
-        </p>
-        <p><strong>Entidades Comunes:</strong> {{ result.common_entities }}</p>
-        <p><strong>Frases Comunes:</strong> {{ result.common_phrases }}</p>
+        <h2 class="card-subtitle">Resultados de CVs Analizados:</h2>
+        {% for result in compatibility_results %}
+          <div class="card mt-3">
+            <div class="card-body">
+              <h3 class="card-title">{{ result.cv_filename }}</h3>
+              <p><strong>Contenido:</strong>
+                <ul>
+                  {% for page in result.cv_analysis.text %}
+                    <li>{{ page }}</li>
+                  {% endfor %}
+                </ul>
+              </p>
+              <p><strong class="text-info">Porcentaje de Compatibilidad:</strong> {{ result.compatibility_percentage }}%</p>
+              <p><strong>Entidades Comunes:</strong>
+                <ul>
+                  {% for entity in result.common_entities %}
+                    <li>{{ entity }}</li>
+                  {% endfor %}
+                </ul>
+              </p>
+              <p><strong>Frases Comunes:</strong>
+                <ul>
+                  {% for phrase in result.common_phrases %}
+                    <li>{{ phrase }}</li>
+                  {% endfor %}
+                </ul>
+              </p>
+            </div>
+          </div>
+        {% endfor %}
+        
         <a class="btn btn-primary" href="javascript:history.back()">Volver</a>
       </div>
     </div>

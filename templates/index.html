@@ -14,18 +14,11 @@
   <body class="m-3">
     <h1>Job Matcher</h1>
     <form action="/submit" method="post" enctype="multipart/form-data">
-      <label for="profile">Perfil Técnico:</label><br />
-      <textarea
-        class="form-control"
-        id="profile"
-        name="profile"
-        rows="8"
-        required
-      ></textarea
-      ><br /><br />
-      <label for="cv">Subir CV:</label><br />
-      <input type="file" id="cv" name="cv"  required/><br /><br />
-      <input class="brn btn-primary" type="submit" value="Submit" />
+      <div class="mb-3">
+        <label for="profile" class="form-label">Perfil Técnico:</label>
+        <textarea class="form-control" id="profile" name="profile" rows="8" required></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit">Submit</button>
     </form>
   </body>
 </html>
