@@ -1,0 +1,11 @@
+from dotenv import load_dotenv
+import os
+
+# Cargar configuraciones
+load_dotenv()
+AI_ENDPOINT = os.getenv('AI_SERVICE_ENDPOINT')
+AI_KEY = os.getenv('AI_SERVICE_KEY')
+DOCUMENT_ENDPOINT = os.getenv("AZURE_FORMRECOGNIZER_ENDPOINT")
+DOCUMENT_KEY = os.getenv("AZURE_FORMRECOGNIZER_KEY")
+BLOB_CONNECTION_STRING = os.getenv("AZURE_BLOB_STORAGE_CONNECTION_STRING")
+BLOB_CONTAINER_NAME = os.getenv("AZURE_BLOB_STORAGE_CONTAINER_NAME")
