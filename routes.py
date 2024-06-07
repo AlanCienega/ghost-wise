@@ -1,13 +1,18 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.textanalytics import TextAnalyticsClient
 from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.storage.blob import BlobServiceClient
 from config import AI_ENDPOINT, AI_KEY, DOCUMENT_ENDPOINT, DOCUMENT_KEY, BLOB_CONNECTION_STRING, BLOB_CONTAINER_NAME
+from openai import AzureOpenAI
+import os
+from dotenv import load_dotenv
 from text_analysis import get_language, get_sentiment, get_key_phrases, get_entities
 from cv_analysis import analyze_cv
 from compatibility import calculate_compatibility_entities
 from weights import calculate_entity_weights
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -18,11 +23,41 @@ document_analysis_client = DocumentAnalysisClient(endpoint=DOCUMENT_ENDPOINT, cr
 blob_service_client = BlobServiceClient.from_connection_string(BLOB_CONNECTION_STRING)
 blob_container_client = blob_service_client.get_container_client(BLOB_CONTAINER_NAME)
 
-weights = {}
+endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT")
+apikey = os.environ.get("AZURE_OPENAI_API_KEY")
+deployment = os.environ.get("CHAT_COMPLETIONS_DEPLOYMENT_NAME")
+
+client = AzureOpenAI(
+    api_key=apikey,
+    api_version="2024-02-01",
+    azure_endpoint=endpoint
+)
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/get_profile', methods=['POST'])
+def get_profile():
+    data = request.json
+    question = data['question']
+
+    completion = client.chat.completions.create(
+        model=deployment,
+        messages=[
+            {
+                "role": "system",
+                "content": "Actúa como un reclutador profesional con amplia experiencia en contratación de profesionales de múltiples áreas de trabajo y de múltiples perfiles profesionales.\n\n"
+            },
+            {
+                "role": "user",
+                "content": question
+            }
+        ]
+    )
+    profile_text = completion.choices[0].message.content
+
+    return jsonify({"profile": profile_text})
 
 @app.route('/submit', methods=['POST'])
 def submit():
