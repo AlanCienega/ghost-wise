@@ -7,15 +7,18 @@ from config import AI_ENDPOINT, AI_KEY, DOCUMENT_ENDPOINT, DOCUMENT_KEY, BLOB_CO
 from text_analysis import get_language, get_sentiment, get_key_phrases, get_entities
 from cv_analysis import analyze_cv
 from compatibility import calculate_compatibility_entities
+from weights import calculate_entity_weights
 
 app = Flask(__name__)
 
-# Crear clientes de Azure
+# Create Azure clients
 credential = AzureKeyCredential(AI_KEY)
 ai_client = TextAnalyticsClient(endpoint=AI_ENDPOINT, credential=credential)
 document_analysis_client = DocumentAnalysisClient(endpoint=DOCUMENT_ENDPOINT, credential=AzureKeyCredential(DOCUMENT_KEY))
 blob_service_client = BlobServiceClient.from_connection_string(BLOB_CONNECTION_STRING)
 blob_container_client = blob_service_client.get_container_client(BLOB_CONTAINER_NAME)
+
+weights = {}
 
 @app.route('/')
 def index():
@@ -25,15 +28,21 @@ def index():
 def submit():
     profile_text = request.form['profile']
 
-    # Analizar perfil técnico
+    # Analyze technical profile
     profile_language = get_language(profile_text, ai_client)
     sentiment = get_sentiment(profile_text, ai_client)
     profile_key_phrases = get_key_phrases(profile_text, ai_client)
     profile_entities = get_entities(profile_text, ai_client)
 
-    # Convertir a minúsculas y eliminar duplicados
+    # Convert to lowercase and remove duplicates
     profile_key_phrases = list(set([phrase.lower() for phrase in profile_key_phrases]))
     profile_entities = list(set([entity.lower() for entity in profile_entities]))
+
+    # Calculate entity weights
+    weights = calculate_entity_weights(profile_entities)
+
+    # Update the weights dictionary with calculated values
+    weights.update(weights)
 
     profile_analysis = {
         "original_text": profile_text,
@@ -45,24 +54,25 @@ def submit():
 
     compatibility_results = []
 
-    # Recorrer los archivos en el blob storage
+    # Iterate through files in blob storage
     for blob in blob_container_client.list_blobs():
         blob_client = blob_container_client.get_blob_client(blob)
         
-        # Analizar CV desde Azure Blob Storage
+        # Analyze CV from Azure Blob Storage
         cv_data = analyze_cv(blob_client, document_analysis_client)
 
-        # Obtener el texto del CV
+        # Get CV text
         cv_text = " ".join(cv_data.get("text", []))
         cv_language = get_language(cv_text, ai_client)
         cv_key_phrases = get_key_phrases(cv_text, ai_client)
         cv_entities = get_entities(cv_text, ai_client)
 
+        # Convert to lowercase and remove duplicates
         cv_key_phrases = list(set([phrase.lower() for phrase in cv_key_phrases]))
         cv_entities = list(set([entity.lower() for entity in cv_entities]))
 
-        # Calcular compatibilidad
-        compatibility_percentage = calculate_compatibility_entities(profile_entities, cv_entities)
+        # Calculate compatibility
+        compatibility_percentage = calculate_compatibility_entities(profile_entities, cv_entities, weights)
         compatibility_percentage = round(compatibility_percentage, 2)
 
         compatibility_results.append({
