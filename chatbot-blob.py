@@ -30,7 +30,7 @@ completion = client.chat.completions.create(
         },
         {
             "role": "assistant",
-            "content": "Buscamos un Desarrollador Full Stack con experiencia en frontend y backend.\nResponsabilidades:\nDesarrollar y mantener aplicaciones web escalables.\nImplementar interfaces de usuario intuitivas.\nDiseñar y construir APIs RESTful.\nGestionar y optimizar bases de datos.\nRevisar código y asegurar su calidad.\nPlanificar y ejecutar nuevas características.\nRequisitos:\nExperiencia como Desarrollador Full Stack.\nDominio de HTML5, CSS3, JavaScript ES6, React, y Redux.\nBackend con Node.js y Express, o Python/Django o Java/Spring Boot.\nBases de datos PostgreSQL y MongoDB.\nExperiencia con Git y GitHub.\nConocimientos básicos en Docker y Jenkins.\nBuenas habilidades de comunicación y trabajo en equipo.\nExperiencia con metodologías ágiles (Scrum/Kanban)."
+            "content": "Buscamos un full stack developer con al menos 3 años de experiencia en desarrollo web y conocimientos sólidos en laravel y vue.js. es esencial tener habilidades sólidas de comunicación y capacidad para trabajar en equipo. las responsabilidades incluyen el desarrollo de interfaces de usuario, la construcción de aplicaciones web y la realización de pruebas del sistema. requisitos: experiencia mínima de 3 años como full stack developer. conocimientos sólidos en laravel y vue.js. habilidades de comunicación sólidas. capacidad para trabajar en equipo."
         },
         {
             "role": "user",
@@ -38,7 +38,7 @@ completion = client.chat.completions.create(
         },
         {
             "role": "assistant",
-            "content": "Buscamos un Desarrollador Frontend con experiencia en optimización web y diseño responsivo.\nResponsabilidades:\nOptimizar el rendimiento de páginas web.\nImplementar diseño responsivo.\nMejorar apariencia y usabilidad en colaboración con el equipo de diseño.\nRealizar pruebas de compatibilidad en navegadores y dispositivos.\nRecomendar nuevas tecnologías y herramientas.\nRequisitos:\nExperiencia en desarrollo frontend de sitios web estáticos.\nConocimiento de HTML5, CSS3 y JavaScript.\nExperiencia en optimización de rendimiento web.\nFamiliaridad con Bootstrap o Flexbox.\nConocimiento básico de SEO.\nHabilidades de resolución de problemas y trabajo en equipo.\nExcelentes habilidades de comunicación."
+            "content": "Buscamos un Desarrollador Frontend con experiencia en optimización web y diseño responsivo.\nResponsabilidades:\nOptimizar el rendimiento de páginas web.\nImplementar diseño responsivo.\nMejorar apariencia y usabilidad en colaboración con el equipo de diseño.\nRealizar pruebas de compatibilidad en navegadores y dispositivos.\nRequisitos:\nExperiencia en desarrollo frontend de sitios web estáticos.\nConocimiento de HTML5, CSS3 y JavaScript.\nExperiencia en optimización de rendimiento web.\nFamiliaridad con Bootstrap o Flexbox.\nConocimiento básico de SEO.\nHabilidades de resolución de problemas y trabajo en equipo.\nExcelentes habilidades de comunicación."
         },
         {
             "role": "user",
