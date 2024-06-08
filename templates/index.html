@@ -10,19 +10,26 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="../static/index.css">
   </head>
 <body class="p-4">
-    <h1 class="text-primary">Ghost Wise</h1>
+    <div class="chat-name">
+        <div class="logo"></div>
+        <h1 class="text-primary">Ghost Wise</h1>
+    </div>
     <form id="question-form" action="/get_profile" method="post">
         <div class="mb-3">
-            <label for="question" class="form-label">¿Hola, soy Ghost Bot qué necesitas, no importa que no agregues habilidades especificas, yo te ayudo a crear el perfil?</label>
-            <input type="text" class="form-control" id="question" name="question" placeholder="Ejemplo: Me gustaría contratar a alguien que me ayude a llevar el control de mi tienda online" required>
+            <div class="chat-bot">
+                <label for="question" class="form-label">¿Hola, soy Ghost Bot qué necesitas, no importa que no agregues habilidades especificas, yo te ayudo a crear el perfil?</label>
+            </div>
+            <div class="chat-user">
+                <input type="text" class="form-control" id="question" name="question" placeholder="Ejemplo: Me gustaría contratar a alguien que me ayude a llevar el control de mi tienda online" required>
+                <button class="btn btn-primary" type="submit">Preguntar</button>
+            </div>
         </div>
-        <button class="btn btn-primary" type="submit">Preguntar</button>
     </form>
 
-    <h2>Perfil Técnico</h2>
+    <!--<h2>Perfil Técnico</h2>-->
     <form id="profile-form" action="/submit" method="post">
         <div class="mb-3">
             <label for="profile" class="form-label">Perfil Técnico:</label>
