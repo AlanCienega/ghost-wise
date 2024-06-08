@@ -8,66 +8,82 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
+      crossorigin="anonymous"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/style.css" />
   </head>
-  <body class="m-3">
-    <div class="card">
-      <div class="card-body">
-        <h1 class="card-title">Resultado del Análisis</h1>
+  <body>
+    <div class="container mt-5">
+      <h1 class="title text-center"">Resultado del Análisis</h1>
+
+      <div class="card mx-auto p-4 shadow">
         
-        <h2 class="card-subtitle">Perfil Técnico Analizado:</h2>
-        <p><strong>Texto Original:</strong> {{ profile_analysis.original_text }}</p>
+        <h2 class="subtitle">Perfil Técnico Analizado:</h2>
+        <p class="justified"><strong>Texto Original:</strong> {{ profile_analysis.original_text }}</p>
         <p><strong>Idioma:</strong> {{ profile_analysis.language }}</p>
         <p><strong>Sentimiento:</strong> {{ profile_analysis.sentiment }}</p>
-        <p><strong>Frases Clave:</strong>
-          <ul>
+      </div>
+        
+      <div class="card mt-4 p-4 shadow">
+        <h2 class="subtitle">Frases Clave</h2>
+        <div class="tags-container">
             {% for phrase in profile_analysis.key_phrases %}
-              <li>{{ phrase }}</li>
+              <span class="tag">{{ phrase }}</span>
             {% endfor %}
-          </ul>
-        </p>
-        <p><strong>Entidades:</strong>
-          <ul>
-            {% for entity in profile_analysis.entities %}
-              <li>{{ entity }}</li>
-            {% endfor %}
-          </ul>
-        </p>
+        </div>
+      </div>
 
-        <h2 class="card-subtitle">Resultados de CVs Analizados:</h2>
+      <div class="card mt-4 p-4 shadow">
+        <h2 class="subtitle">Entidades</h2>
+        <div class="tags-container">
+          {% for entity in profile_analysis.entities %}
+            <span class="tag">{{ entity }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+    
+    <div class="container mt-5">
+        <h2 class="card-subtitle text-center">Resultados de CVs Analizados:</h2>
         {% for result in compatibility_results %}
-          <div class="card mt-3">
+
+          <div class="card mt-4 p-4 shadow">
             <div class="card-body">
-              <h3 class="card-title">{{ result.cv_filename }}</h3>
+              <div class="d-flex justify-content-between align-items-center">
+                <h3 class="card-title">{{ result.cv_filename }}</h3>
+                <div class="compatibility-card">
+                  <strong>Compatibilidad:</strong>
+                  <div class="compatibility-value">{{ result.compatibility_percentage }}%</div>
+                </div>
+              </div>
               <p><strong>Contenido:</strong>
                 <ul>
                   {% for page in result.cv_analysis.text %}
-                    <li>{{ page }}</li>
+                    <li class="justified">{{ page }}</li>
                   {% endfor %}
                 </ul>
               </p>
-              <p><strong class="text-info">Porcentaje de Compatibilidad:</strong> {{ result.compatibility_percentage }}%</p>
-              <p><strong>Entidades Comunes:</strong>
-                <ul>
+              <!-- <p><strong class="text-info">Porcentaje de Compatibilidad:</strong> {{ result.compatibility_percentage }}%</p> -->
+              <p class="mt-4"><strong>Entidades Comunes:</strong></p>
+                <div class="tags-container">
                   {% for entity in result.common_entities %}
-                    <li>{{ entity }}</li>
+                    <span class="tag">{{ entity }}</span>
                   {% endfor %}
-                </ul>
-              </p>
-              <p><strong>Frases Comunes:</strong>
-                <ul>
+                </div>
+              
+              <p class="mt-4"><strong>Frases Comunes:</strong></p>
+                <div class="tags-container">
                   {% for phrase in result.common_phrases %}
-                    <li>{{ phrase }}</li>
+                    <span class="tag">{{ phrase }}</span>
                   {% endfor %}
-                </ul>
-              </p>
+                </div>
+              
             </div>
           </div>
         {% endfor %}
         
         <a class="btn btn-primary" href="javascript:history.back()">Volver</a>
       </div>
-    </div>
   </body>
 </html>

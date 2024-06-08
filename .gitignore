@@ -1,4 +1,5 @@
 env_gw
+env_blue
 .env
 uploads
 __pycache__
