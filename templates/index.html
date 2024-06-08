@@ -10,55 +10,83 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="../static/index.css">
+    <link rel="stylesheet" href="../static/index.css" />
   </head>
-<body class="p-4">
-    <div class="chat-name">
-        <div class="logo"></div>
-        <h1 class="text-primary">Ghost Wise</h1>
+  <body class="p-4 m-3">
+    <div
+      class="row chat-header bg-ghost-primary text-center d-flex justify-content-center align-items-center py-4"
+    >
+      <div class="logo col-12 col-md-3"></div>
+      <div class="col-12 col-md-3">
+        <div class="text-prymary">
+          <h2 class="creepster-regular">Ghost Wise</h2>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <h5
+          >Hola, soy Ghost Bot, te ayudaré a crear el perfil adecuado para tu
+          requerimiento</h5
+        >
+      </div>
     </div>
     <form id="question-form" action="/get_profile" method="post">
-        <div class="mb-3">
-            <div class="chat-bot">
-                <label for="question" class="form-label">Hola, soy Ghost Bot, ¿qué necesitas? No importa que no agregues habilidades específicas, yo te ayudo a crear el perfil.</label>
+      <div class="mb-3">
+        <div class="row">
+          <div class="chat-user d-flex">
+            <div class="col-12 col-lg-6 d-flex">
+              <input
+                type="text"
+                class="form-control"
+                id="question"
+                name="question"
+                placeholder="Ejemplo: Me gustaría contratar a alguien que me ayude a llevar el control de mi tienda online"
+                required
+              />
+              <button class="btn bg-ghost-primary" type="submit">
+                &#10147;
+              </button>
             </div>
-            <div class="chat-user">
-                <input type="text" class="form-control" id="question" name="question" placeholder="Ejemplo: Me gustaría contratar a alguien que me ayude a llevar el control de mi tienda online" required>
-                <button class="btn btn-primary" type="submit">Preguntar</button>
-            </div>
+          </div>
         </div>
+      </div>
     </form>
 
     <!--<h2>Perfil Técnico</h2>-->
     <form id="profile-form" action="/submit" method="post">
-        <div class="mb-3">
-            <label for="profile" class="form-label">Perfil Técnico:</label>
-            <textarea class="form-control" id="profile" name="profile" rows="6" required></textarea>
-        </div>
-        <button class="btn btn-primary" type="submit">Analizar</button>
+      <div class="mb-3">
+        <label for="profile" class="form-label">Perfil Técnico:</label>
+        <textarea
+          class="form-control"
+          id="profile"
+          name="profile"
+          rows="6"
+          required
+        ></textarea>
+      </div>
+      <button class="btn bg-ghost-primary" type="submit">Analizar</button>
     </form>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const questionForm = document.getElementById('question-form');
-            questionForm.addEventListener('submit', async function(event) {
-                event.preventDefault();
-                
-                const response = await fetch('/get_profile', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        question: document.getElementById('question').value
-                    })
-                });
+      document.addEventListener("DOMContentLoaded", function () {
+        const questionForm = document.getElementById("question-form");
+        questionForm.addEventListener("submit", async function (event) {
+          event.preventDefault();
 
-                const data = await response.json();
-                document.getElementById('profile').value = data.profile;
-                questionForm.reset();
-            });
+          const response = await fetch("/get_profile", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              question: document.getElementById("question").value,
+            }),
+          });
+
+          const data = await response.json();
+          document.getElementById("profile").value = data.profile;
+          questionForm.reset();
         });
+      });
     </script>
-</body>
+  </body>
 </html>
