@@ -52,15 +52,7 @@ body {
 }
 
 .form-label {
-    color: white;
-    background-color:#3a658f;
-    width:500px;
     border-radius:24px 16px 16px 4px;
-    padding-left:16px;
-    padding-right:16px;
-    padding-top:12px;
-    padding-bottom:12px;
-    position:relative;
 }
 
 .form-control {
