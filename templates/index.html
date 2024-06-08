@@ -23,10 +23,10 @@
         </div>
       </div>
       <div class="col-12 col-md-6">
-        <h5
-          >Hola, soy Ghost Bot, te ayudaré a crear el perfil adecuado para tu
-          requerimiento</h5
-        >
+        <h5>
+          Hola, soy Ghost Bot, te ayudaré a crear el perfil adecuado para tu
+          requerimiento
+        </h5>
       </div>
     </div>
     <form id="question-form" action="/get_profile" method="post">
@@ -54,21 +54,36 @@
     <!--<h2>Perfil Técnico</h2>-->
     <form id="profile-form" action="/submit" method="post">
       <div class="mb-3">
-        <label for="profile" class="col-12 col-lg-6 bg-ghost-primary p-3 form-label">Perfil Técnico:</label>
+        <label
+          for="profile"
+          class="col-12 col-lg-6 bg-ghost-primary p-3 form-label"
+          >Perfil Técnico:</label
+        >
         <textarea
           class="form-control"
           id="profile"
           name="profile"
           rows="6"
           required
+          disabled
         ></textarea>
       </div>
-      <button class="btn bg-ghost-primary" type="submit">Analizar</button>
+      <button
+        class="btn bg-ghost-primary"
+        id="analyze-button"
+        type="submit"
+        disabled
+      >
+        Analizar
+      </button>
     </form>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const questionForm = document.getElementById("question-form");
+        const profileTextarea = document.getElementById("profile");
+        const analyzeButton = document.getElementById("analyze-button");
+
         questionForm.addEventListener("submit", async function (event) {
           event.preventDefault();
 
@@ -83,7 +98,9 @@
           });
 
           const data = await response.json();
-          document.getElementById("profile").value = data.profile;
+          profileTextarea.value = data.profile;
+          profileTextarea.disabled = false;
+          analyzeButton.disabled = false;
           questionForm.reset();
         });
       });
