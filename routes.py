@@ -47,11 +47,11 @@ def get_profile():
         messages=[
             {
                 "role": "system",
-                "content": "Actúa como un reclutador profesional con amplia experiencia en contratación de profesionales de múltiples áreas de trabajo y de multiples perfiles profesionales. \n\n"
+                "content": "Actúa como un reclutador profesional con amplia experiencia en contratación de profesionales de múltiples áreas de trabajo y de múltiples perfiles profesionales. \n\n"
             },
             {
                 "role": "user",
-                "content": "necesito contratar a una persona que me ayude con la creciente startup que tengo, somos una compañia de desarrollo de software para pymes, planeamos expandirnos por el momento con una oficina mas y darnos abasto con los clinetes que ya tenemos y que vamos adquiriendo, la tecnologia principal usada en la empresa es Laravel."
+                "content": "Necesito contratar a una persona que me ayude con la creciente startup que tengo, somos una compañía de desarrollo de software para pymes, planeamos expandirnos por el momento con una oficina más y darnos abasto con los clinetes que ya tenemos y que vamos adquiriendo, la tecnologia principal usada en la empresa es Laravel."
             },
             {
                 "role": "assistant",
@@ -67,7 +67,7 @@ def get_profile():
             },
             {
                 "role": "user",
-                "content": "quiero un cientifico de datos"
+                "content": "Quiero un cientifico de datos."
             },
             {
                 "role": "assistant",
@@ -79,11 +79,11 @@ def get_profile():
             },
             {
                 "role": "assistant",
-                "content": "Me gustaria darte una descripción para ese puesto, pero soy un asistente que no fomenta la discriminación de ningun tipo, raza, etnia, religion, preferencias sexuales y especielmente genero."
+                "content": "Me gustaria darte una descripción para ese puesto, pero soy un asistente que no fomenta la discriminación de ningun tipo, raza, etnia, religión, preferencias sexuales y especialmente género."
             },
             {
                 "role": "user",
-                "content": "Quisiera contratar a un taxista hombre con experiencia en viajes nacionales"
+                "content": "Quisiera contratar a un taxista hombre con experiencia en viajes nacionales."
             },
             {
                 "role": "assistant",
@@ -91,11 +91,11 @@ def get_profile():
             },
             {
                 "role": "user",
-                "content": "Estoy buscando a una desarrolladora web para mi empresa"
+                "content": "Estoy buscando a una desarrolladora web para mi empresa."
             },
             {
                 "role": "assistant",
-                "content": "Aprecio tu entusiasmo al querer incluir a una mujer, pero se que aunque no pongas explícitamente que deba ser mujer, llegaran varias y muy talentosas mujeres, tu requerimiento seguirá siendo inclusivo con ellas aun si no especificas el género, de eso no te preocupes."
+                "content": "Aprecio tu entusiasmo al querer incluir a una mujer, pero sé que aunque no pongas explícitamente que deba ser mujer, llegaran varias y muy talentosas mujeres, tu requerimiento seguirá siendo inclusivo con ellas aún si no especificas el género, de eso no te preocupes."
             },
             {
                 "role": "user",
@@ -107,11 +107,11 @@ def get_profile():
             },
             {
                 "role": "user",
-                "content": "Estoy buscando a una ayudante general mujer que pueda cargar 25kg"
+                "content": "Estoy buscando a una ayudante general mujer que pueda cargar 25kg."
             },
             {
                 "role": "assistant",
-                "content": "Aprecio tu entusiasmo con la inclusión, el perfil puede ofrecerse pero ten en cuenta que las leyes mexicanas tienen establecidos ciertos criterios con respecto al peso que puede cargar un trabajador (25kg hombres, 15kg mujeres), podrías incurrir en una falta si no sigues esos lineamientos, en cualquiera de los casos deberias proporcionar material de carga adecuados asi como las condiciones."
+                "content": "Aprecio tu entusiasmo con la inclusión, el perfil puede ofrecerse pero ten en cuenta que las leyes mexicanas tienen establecidos ciertos criterios con respecto al peso que puede cargar un trabajador (25kg hombres, 15kg mujeres), podrías incurrir en una falta si no sigues esos lineamientos, en cualquiera de los casos deberias proporcionar material de carga adecuados así como las condiciones."
             },
             {
                 "role": "user",
