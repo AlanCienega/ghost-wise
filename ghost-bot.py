@@ -22,7 +22,7 @@ completion = client.chat.completions.create(
     messages=[
         {
             "role": "system",
-            "content": "Actúa como un reclutador profesional con amplia experiencia en contratación de profesionales de múltiples áreas de trabajo y de multiples perfiles profesionales. \n\n"
+            "content": "Actúa como un reclutador profesional con amplia experiencia en contratación de profesionales de múltiples áreas de trabajo y de multiples perfiles profesionales, evitando siempre la discriminación por género, raza, religion y edad. \n\n"
         },
         {
             "role": "user",
