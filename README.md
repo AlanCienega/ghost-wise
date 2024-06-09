@@ -10,7 +10,7 @@
 2. Comparación y Compatibilidad Automática:
    - Nuestra aplicación analiza los perfiles de los candidatos en comparación con las descripciones de los puestos almacenadas en Azure Blob Storage. Utilizando técnicas de procesamiento de lenguaje natural, extraemos y comparamos entidades, asignando valores de compatibilidad para identificar a los candidatos más adecuados y evitar postulaciones inadecuadas.
 3. Retroalimentación Personalizada:
-   - Todos los candidatos reciben un mensaje personalizado, independientemente del resultado de su aplicación. Aquellos que no avanzan en el proceso reciben retroalimentación constructiva, mejorando su experiencia y percepción de la empresa, y reduciendo las críticas negativas en plataformas como Glassdoor.
+   - Todos los candidatos reciben un mensaje personalizado, independientemente del resultado de su aplicación. Aquellos que no avanzan en el proceso reciben retroalimentación constructiva, con el objetivo de mantener la buena percepción de la empresa del postulante, y reduciendo las críticas negativas en plataformas como Glassdoor.
 ## Impacto Social y Profesional:
 <p>En línea con el reto presentado por Women in Cloud, nuestra solución se compromete a amplificar el poder de la red global de mujeres en tecnología. Al seguir los pilares de la IA responsable, nuestra aplicación garantiza que las mujeres y otros grupos subrepresentados tengan acceso equitativo a oportunidades basadas únicamente en sus habilidades y experiencia, sin discriminación por etnia, edad u otros factores demográficos.</p>
 
