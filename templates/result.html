@@ -14,7 +14,7 @@
   </head>
   <body>
     <div class="container mt-5">
-      <h1 class="title text-center"">Resultado del Análisis</h1>
+      <h1 class="title text-center">Resultado del Análisis</h1>
 
       <div class="card mx-auto p-4 shadow">
         
@@ -28,7 +28,7 @@
         <h2 class="subtitle">Frases Clave</h2>
         <div class="tags-container">
             {% for phrase in profile_analysis.key_phrases %}
-              <span class="tag">{{ phrase }}</span>
+              <span class="tag bg-ghost-primary">{{ phrase }}</span>
             {% endfor %}
         </div>
       </div>
@@ -37,7 +37,7 @@
         <h2 class="subtitle">Entidades</h2>
         <div class="tags-container">
           {% for entity in profile_analysis.entities %}
-            <span class="tag">{{ entity }}</span>
+            <span class="tag bg-ghost-primary">{{ entity }}</span>
           {% endfor %}
         </div>
       </div>
@@ -68,14 +68,14 @@
               <p class="mt-4"><strong>Entidades Comunes:</strong></p>
                 <div class="tags-container">
                   {% for entity in result.common_entities %}
-                    <span class="tag">{{ entity }}</span>
+                    <span class="tag bg-ghost-primary">{{ entity }}</span>
                   {% endfor %}
                 </div>
               
               <p class="mt-4"><strong>Frases Comunes:</strong></p>
                 <div class="tags-container">
                   {% for phrase in result.common_phrases %}
-                    <span class="tag">{{ phrase }}</span>
+                    <span class="tag bg-ghost-primary">{{ phrase }}</span>
                   {% endfor %}
                 </div>
               
@@ -83,7 +83,7 @@
           </div>
         {% endfor %}
         
-        <a class="btn btn-primary" href="javascript:history.back()">Volver</a>
+        <a class="btn bg-ghost-primary mt-2" href="javascript:history.back()">Volver</a>
       </div>
   </body>
 </html>

@@ -1,6 +1,6 @@
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f9f9f9;
+    background-color:#D3D3D3;
     margin: 0;
     padding: 2rem;
 }
@@ -21,10 +21,6 @@ body {
 .btn-primary:hover {
     background-color: #6b3f6f;
     border-color: #545b62;
-}
-
-h1, h2 {
-    color: #3c5d7e;
 }
 
 #profile {
@@ -112,4 +108,73 @@ h1, h2 {
 .justified {
     text-align: justify;
     line-height: 1.6;
+}
+
+.bg-ghost-primary{
+    background-image: linear-gradient(#3a658f, #2b4661);
+    color: white;
+}
+.chat-header{
+    
+    color: white;
+    border-radius:50px 50px 0px  0px;
+    margin-inline: 5px;
+}
+.logo {
+    width: 100px;
+    height: 100px;
+    background-image: url('../static/ghost.png');
+    background-size: cover;
+}
+
+.chat-name {
+    border-radius:50px 50px 0px 0px;
+    padding-left:24px;
+    padding-right:24px;
+    padding-top:16px;
+    padding-bottom:16px;
+    position:relative;
+}
+
+.mb-3 {
+    padding-top:16px;
+}
+
+.text-primary {
+    color: white !important;
+}
+
+.chat-bot, .chat-name {
+    display:flex;
+    flex-direction:row;
+    justify-content:flex-start;
+    align-items:center;
+    gap:8px;
+}
+
+.chat-user {
+    display:flex;
+    flex-direction:row;
+    justify-content:flex-end;
+    align-items:flex-end;
+    gap:8px;
+}
+
+.form-label {
+    border-radius:24px 16px 16px 4px;
+}
+
+.form-control {
+    background-color:white;
+    border-radius:16px 16px 4px 16px;
+    padding-left:16px;
+    padding-right:16px;
+    padding-top:12px;
+    padding-bottom:12px;
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    position:relative;
 }
