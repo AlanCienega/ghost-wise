@@ -37,6 +37,24 @@ client = AzureOpenAI(
 def index():
     return render_template('index.html')
 
+@app.route('/generate_message', methods=['POST'])
+def generate_message():
+    data = request.json
+    compatibility_percentage = float(data['compatibility_percentage'])
+    candidate_name = "candidato"
+    common_entities = data['common_entities']
+    
+    if compatibility_percentage >= 70:
+        message = (f"Estimado {candidate_name},\n\n"
+                   f"Gracias por tu aplicación. Tus conocimientos y experiencia en {', '.join(common_entities)} "
+                   f"nos parecen asombrosos y queremos que te unas a nuestro equipo.")
+    else:
+        message = (f"Estimado {candidate_name},\n\n"
+                   f"Agradecemos tu interés en unirte a nuestro equipo. Aunque en esta ocasión no has sido seleccionado, "
+                   f"te sugerimos mejorar tu experiencia en {', '.join(common_entities)} para futuras oportunidades. ¡Te deseamos mucho éxito!")
+
+    return jsonify({"message": message})
+
 @app.route('/get_profile', methods=['POST'])
 def get_profile():
     data = request.json
