@@ -41,19 +41,33 @@ def index():
 def generate_message():
     data = request.json
     compatibility_percentage = float(data['compatibility_percentage'])
-    candidate_name = "candidato"
     common_entities = data['common_entities']
-    
+
+    # Preparar el mensaje de entrada para la API de OpenAI
     if compatibility_percentage >= 70:
-        message = (f"Estimado {candidate_name},\n\n"
-                   f"Gracias por tu aplicación. Tus conocimientos y experiencia en {', '.join(common_entities)} "
-                   f"nos parecen asombrosos y queremos que te unas a nuestro equipo.")
+        prompt = (f"Genera un mensaje personalizado para el candidato que ha aplicado a una posición en nuestra empresa. "
+                  f"El candidato tiene un porcentaje de compatibilidad del {compatibility_percentage}%. "
+                  f"Tiene experiencia en {', '.join(common_entities)}. "
+                  f"Queremos decirle que sus conocimientos y experiencia nos parecen asombrosos y queremos que se una a nuestro equipo.")
     else:
-        message = (f"Estimado {candidate_name},\n\n"
-                   f"Agradecemos tu interés en unirte a nuestro equipo. Aunque en esta ocasión no has sido seleccionado, "
-                   f"te sugerimos mejorar tu experiencia en {', '.join(common_entities)} para futuras oportunidades. ¡Te deseamos mucho éxito!")
+        prompt = (f"Genera un mensaje personalizado para el candidato que ha aplicado a una posición en nuestra empresa. "
+                  f"El candidato tiene un porcentaje de compatibilidad del {compatibility_percentage}%. "
+                  f"Tiene experiencia en {', '.join(common_entities)}. "
+                  f"Queremos decirle que, aunque no ha sido seleccionado en esta ocasión, le sugerimos mejorar su experiencia en esas áreas para futuras oportunidades.")
+
+    # Hacer la llamada a la API de OpenAI
+    response = client.chat.completions.create(
+        model=deployment,
+        messages=[
+            {"role": "system", "content": "Vas a ser el mejor analizando perfiles de candidatos para dar una buena retroalimentacion de cada perfil de candidato"},
+            {"role": "user", "content": prompt}
+        ]
+    )
+
+    message = response.choices[0].message.content
 
     return jsonify({"message": message})
+
 
 @app.route('/get_profile', methods=['POST'])
 def get_profile():
